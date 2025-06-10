@@ -1,14 +1,14 @@
-import type React from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "./AuthPage.css";
+import type React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import './AuthPage.css';
 import type {
-  RegisterEmailRequest,
-  SessionSuccess,
   AuthError,
   LoginCodeRequest,
-} from "../../types/api";
+  RegisterEmailRequest,
+  SessionSuccess,
+} from '../../types/api';
 
 function isEmail(value: string) {
   return /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
@@ -16,10 +16,10 @@ function isEmail(value: string) {
 function isCode(value: string) {
   return /^\d{16}$/.test(value);
 }
-const API = "/v1";
+const API = '/v1';
 
 const AuthPage: React.FC = () => {
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -29,21 +29,21 @@ const AuthPage: React.FC = () => {
     if (isEmail(value)) {
       setLoading(true);
       try {
-        const body: RegisterEmailRequest = { email: value, lang: "ru" };
+        const body: RegisterEmailRequest = { email: value, lang: 'ru' };
         const res = await fetch(`${API}/user/register/email`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
         if (res.ok) {
-          toast.success("PIN отправлен на email");
-          navigate("/auth/email", { state: { email: value } });
+          toast.success('PIN отправлен на email');
+          navigate('/auth/email', { state: { email: value } });
         } else {
           const data: AuthError = await res.json();
-          toast.error(data?.error?.message || "Ошибка отправки PIN");
+          toast.error(data?.error?.message || 'Ошибка отправки PIN');
         }
       } catch {
-        toast.error("Ошибка сети");
+        toast.error('Ошибка сети');
       } finally {
         setLoading(false);
       }
@@ -52,33 +52,33 @@ const AuthPage: React.FC = () => {
       try {
         const body: LoginCodeRequest = { login_code: value };
         const res = await fetch(`${API}/auth/login/code`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
         if (res.ok) {
           const data: SessionSuccess = await res.json();
-          localStorage.setItem("session", data.data.session);
-          toast.success("Вход выполнен!");
-          navigate("/profile");
+          localStorage.setItem('session', data.data.session);
+          toast.success('Вход выполнен!');
+          navigate('/profile');
         } else {
           const data: AuthError = await res.json();
-          toast.error(data?.error?.message || "Ошибка входа по коду");
+          toast.error(data?.error?.message || 'Ошибка входа по коду');
         }
       } catch {
-        toast.error("Ошибка сети");
+        toast.error('Ошибка сети');
       } finally {
         setLoading(false);
       }
     } else {
-      toast.error("Введите корректный email или 16-значный код");
+      toast.error('Введите корректный email или 16-значный код');
     }
   };
 
   const handleGoogleLogin = () => {
-    localStorage.setItem("session", "google-mock-session");
-    toast.info("Вход через Google (mock)");
-    navigate("/profile");
+    localStorage.setItem('session', 'google-mock-session');
+    toast.info('Вход через Google (mock)');
+    navigate('/profile');
   };
 
   return (
@@ -97,16 +97,16 @@ const AuthPage: React.FC = () => {
           disabled={loading}
         />
         <button type="submit" disabled={loading}>
-          {loading ? "Загрузка..." : "Войти"}
+          {loading ? 'Загрузка...' : 'Войти'}
         </button>
         <button
           type="button"
           onClick={handleGoogleLogin}
           style={{
             marginTop: 12,
-            background: "#fff",
-            color: "#222",
-            border: "1px solid #e5e7eb",
+            background: '#fff',
+            color: '#222',
+            border: '1px solid #e5e7eb',
           }}
         >
           Войти через Google

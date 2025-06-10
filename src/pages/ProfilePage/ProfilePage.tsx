@@ -1,20 +1,20 @@
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import "./ProfilePage.css";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './ProfilePage.css';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const [session, setSession] = useState<string | null>(null);
 
   useEffect(() => {
-    const s = localStorage.getItem("session");
+    const s = localStorage.getItem('session');
     setSession(s);
-    if (!s) navigate("/");
+    if (!s) navigate('/');
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem("session");
-    navigate("/");
+    localStorage.removeItem('session');
+    navigate('/');
   };
 
   return (

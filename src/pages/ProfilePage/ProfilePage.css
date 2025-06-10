@@ -7,9 +7,10 @@
 }
 
 .profile-card {
-  background: rgba(255,255,255,0.92);
+  background: rgba(255, 255, 255, 0.92);
   border-radius: 22px;
-  box-shadow: 0 8px 32px 0 rgba(30, 64, 175, 0.10), 0 1.5px 6px 0 rgba(0,0,0,0.03);
+  box-shadow: 0 8px 32px 0 rgba(30, 64, 175, 0.1), 0 1.5px 6px 0
+    rgba(0, 0, 0, 0.03);
   padding: 38px 28px 32px 28px;
   display: flex;
   flex-direction: column;
@@ -62,7 +63,7 @@
   cursor: pointer;
   background: linear-gradient(90deg, #ef4444 60%, #f87171 100%);
   color: #fff;
-  box-shadow: 0 2px 8px 0 rgba(239,68,68,0.08);
+  box-shadow: 0 2px 8px 0 rgba(239, 68, 68, 0.08);
   transition: background 0.18s, box-shadow 0.18s, color 0.18s, transform 0.13s;
   margin-bottom: 2px;
 }
@@ -71,7 +72,7 @@
   background: linear-gradient(90deg, #dc2626 60%, #ef4444 100%);
   color: #fff;
   transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 6px 20px 0 rgba(239,68,68,0.13);
+  box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.13);
   opacity: 0.98;
 }
 

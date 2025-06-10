@@ -1,12 +1,12 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from 'msw';
 
-const API = "/v1";
+const API = '/v1';
 
 export const handlers = [
   http.post(`${API}/user/register/code`, async () => {
     const login_code = Array.from({ length: 16 }, () =>
-      Math.floor(Math.random() * 10)
-    ).join("");
+      Math.floor(Math.random() * 10),
+    ).join('');
     return HttpResponse.json({ data: { login_code } }, { status: 200 });
   }),
 
@@ -16,14 +16,14 @@ export const handlers = [
       return HttpResponse.json(
         {
           error: {
-            code: "VALIDATION_ERROR",
-            message: "Email address format is incorrect",
+            code: 'VALIDATION_ERROR',
+            message: 'Email address format is incorrect',
             details: [
-              { field: "email", message: "Email address format is incorrect" },
+              { field: 'email', message: 'Email address format is incorrect' },
             ],
           },
         },
-        { status: 422 }
+        { status: 422 },
       );
     }
     return HttpResponse.json({ data: [] }, { status: 200 });
@@ -38,35 +38,35 @@ export const handlers = [
       return HttpResponse.json(
         {
           error: {
-            code: "VALIDATION_ERROR",
-            message: "Email address format is incorrect",
+            code: 'VALIDATION_ERROR',
+            message: 'Email address format is incorrect',
             details: [
-              { field: "email", message: "Email address format is incorrect" },
+              { field: 'email', message: 'Email address format is incorrect' },
             ],
           },
         },
-        { status: 422 }
+        { status: 422 },
       );
     }
-    if (String(pincode) !== "123456") {
+    if (String(pincode) !== '123456') {
       return HttpResponse.json(
         {
           error: {
-            code: "WRONG_PIN_CODE",
-            message: "PIN code expired or missing",
+            code: 'WRONG_PIN_CODE',
+            message: 'PIN code expired or missing',
           },
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
     return HttpResponse.json(
       {
         data: {
           session:
-            "978fc50daaa25cf0206f678a5843b06d43fc0cab8e565b9a65cf77e3ee448784",
+            '978fc50daaa25cf0206f678a5843b06d43fc0cab8e565b9a65cf77e3ee448784',
         },
       },
-      { status: 200 }
+      { status: 200 },
     );
   }),
 
@@ -76,24 +76,24 @@ export const handlers = [
       return HttpResponse.json(
         {
           error: {
-            code: "VALIDATION_ERROR",
-            message: "Login code must be 16 digits",
+            code: 'VALIDATION_ERROR',
+            message: 'Login code must be 16 digits',
             details: [
-              { field: "login_code", message: "Login code must be 16 digits" },
+              { field: 'login_code', message: 'Login code must be 16 digits' },
             ],
           },
         },
-        { status: 422 }
+        { status: 422 },
       );
     }
     return HttpResponse.json(
       {
         data: {
           session:
-            "978fc50daaa25cf0206f678a5843b06d43fc0cab8e565b9a65cf77e3ee448784",
+            '978fc50daaa25cf0206f678a5843b06d43fc0cab8e565b9a65cf77e3ee448784',
         },
       },
-      { status: 200 }
+      { status: 200 },
     );
   }),
 
@@ -106,21 +106,21 @@ export const handlers = [
       return HttpResponse.json(
         {
           error: {
-            code: "AUTHENTICATION_ERROR",
-            message: "Authentication error",
+            code: 'AUTHENTICATION_ERROR',
+            message: 'Authentication error',
           },
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
     return HttpResponse.json(
       {
         data: {
           session:
-            "978fc50daaa25cf0206f678a5843b06d43fc0cab8e565b9a65cf77e3ee448784",
+            '978fc50daaa25cf0206f678a5843b06d43fc0cab8e565b9a65cf77e3ee448784',
         },
       },
-      { status: 200 }
+      { status: 200 },
     );
   }),
 ];

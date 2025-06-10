@@ -1,27 +1,27 @@
+import { useEffect } from 'react';
 import {
   BrowserRouter,
-  Routes,
-  Route,
   Navigate,
+  Route,
+  Routes,
   useNavigate,
-} from "react-router-dom";
-import HomePage from "./pages/HomePage/HomePage";
-import AuthPage from "./pages/AuthPage/AuthPage";
-import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import PinPage from "./pages/PinPage/PinPage";
-import RegCodePage from "./pages/RegCodePage/RegCodePage";
-import ProfilePage from "./pages/ProfilePage/ProfilePage";
-import { useEffect } from "react";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+} from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import AuthPage from './pages/AuthPage/AuthPage';
+import HomePage from './pages/HomePage/HomePage';
+import PinPage from './pages/PinPage/PinPage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
+import RegCodePage from './pages/RegCodePage/RegCodePage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const session = localStorage.getItem("session");
+    const session = localStorage.getItem('session');
     if (session) {
-      navigate("/profile");
+      navigate('/profile');
     }
   }, [navigate]);
 

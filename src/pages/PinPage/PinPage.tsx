@@ -1,29 +1,29 @@
-import type React from "react";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "./PinPage.css";
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import './PinPage.css';
 import type {
-  LoginEmailRequest,
-  SessionSuccess,
   AuthError,
+  LoginEmailRequest,
   RegisterEmailRequest,
-} from "../../types/api";
+  SessionSuccess,
+} from '../../types/api';
 
-const API = "/v1";
+const API = '/v1';
 
 type PinPageLocationState = { email?: string };
 
 export default function PinPage({
   initialTimer = 60,
 }: { initialTimer?: number } = {}) {
-  const [pin, setPin] = useState<string>("");
+  const [pin, setPin] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [timer, setTimer] = useState(initialTimer);
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as PinPageLocationState | null;
-  const email = state?.email || "";
+  const email = state?.email || '';
 
   useEffect(() => {
     if (timer > 0) {
@@ -35,16 +35,16 @@ export default function PinPage({
   const handleResend = async () => {
     setLoading(true);
     try {
-      const body: RegisterEmailRequest = { email, lang: "ru" };
+      const body: RegisterEmailRequest = { email, lang: 'ru' };
       await fetch(`${API}/user/register/email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
       setTimer(60);
-      toast.success("PIN отправлен повторно!");
+      toast.success('PIN отправлен повторно!');
     } catch {
-      toast.error("Ошибка при повторной отправке PIN");
+      toast.error('Ошибка при повторной отправке PIN');
     } finally {
       setLoading(false);
     }
@@ -54,32 +54,32 @@ export default function PinPage({
     e.preventDefault();
 
     if (!/^\d{6}$/.test(pin)) {
-      toast.error("Введите 6-значный PIN");
+      toast.error('Введите 6-значный PIN');
       return;
     }
     if (!email) {
-      toast.error("Email не найден. Попробуйте войти заново.");
+      toast.error('Email не найден. Попробуйте войти заново.');
       return;
     }
     setLoading(true);
     try {
       const body: LoginEmailRequest = { email, pincode: Number(pin) };
       const res = await fetch(`${API}/auth/login/email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
       if (res.ok) {
         const data: SessionSuccess = await res.json();
-        localStorage.setItem("session", data.data.session);
-        toast.success("Вход выполнен!");
-        navigate("/profile");
+        localStorage.setItem('session', data.data.session);
+        toast.success('Вход выполнен!');
+        navigate('/profile');
       } else {
         const data: AuthError = await res.json();
-        toast.error(data?.error?.message || "Ошибка входа");
+        toast.error(data?.error?.message || 'Ошибка входа');
       }
     } catch {
-      toast.error("Ошибка сети");
+      toast.error('Ошибка сети');
     } finally {
       setLoading(false);
     }
@@ -96,11 +96,11 @@ export default function PinPage({
           maxLength={6}
           placeholder="6-значный PIN"
           value={pin}
-          onChange={(e) => setPin(e.target.value.replace(/\D/g, ""))}
+          onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
           disabled={loading}
         />
         <button type="submit" disabled={loading}>
-          {loading ? "Загрузка..." : "Войти"}
+          {loading ? 'Загрузка...' : 'Войти'}
         </button>
         <button
           type="button"
@@ -110,7 +110,7 @@ export default function PinPage({
         >
           {timer > 0
             ? `Отправить PIN повторно через ${timer} сек`
-            : "Отправить PIN повторно"}
+            : 'Отправить PIN повторно'}
         </button>
       </form>
     </div>

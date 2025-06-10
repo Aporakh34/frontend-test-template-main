@@ -1,75 +1,74 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import RegisterPage from './RegisterPage';
+import { fireEvent, render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import RegisterPage from "./RegisterPage";
 
 beforeEach(() => {
   vi.resetAllMocks();
 });
 
-describe('RegisterPage', () => {
-  it('показывает ошибку при невалидном email', async () => {
+describe("RegisterPage", () => {
+  it("показывает ошибку при невалидном email", async () => {
     render(
       <MemoryRouter>
         <RegisterPage />
         <ToastContainer />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
-      target: { value: 'bad' },
+      target: { value: "bad" },
     });
-    fireEvent.submit(screen.getByTestId('register-form'));
+    fireEvent.submit(screen.getByTestId("register-form"));
     expect(await screen.findByText(/корректный email/i)).toBeInTheDocument();
   });
 
-  it('отправляет запрос при валидном email', async () => {
+  it("отправляет запрос при валидном email", async () => {
     global.fetch = vi.fn(() =>
       Promise.resolve({
         ok: true,
         json: () => Promise.resolve({}),
-      } as unknown as Response),
+      } as unknown as Response)
     );
 
     render(
       <MemoryRouter>
         <RegisterPage />
         <ToastContainer />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
-      target: { value: 'test@example.com' },
+      target: { value: "test@example.com" },
     });
     fireEvent.click(
-      screen.getByRole('button', { name: /зарегистрироваться/i }),
+      screen.getByRole("button", { name: /зарегистрироваться/i })
     );
     expect(global.fetch).toHaveBeenCalledWith(
-      '/v1/user/register/email',
+      "/v1/user/register/email",
       expect.objectContaining({
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      }),
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
     );
   });
 
-  it('показывает ошибку при ошибке сети', async () => {
+  it("показывает ошибку при ошибке сети", async () => {
     global.fetch = vi.fn(() =>
-      Promise.reject(new Error('Network error')),
+      Promise.reject(new Error("Network error"))
     ) as unknown as typeof fetch;
 
     render(
       <MemoryRouter>
         <RegisterPage />
         <ToastContainer />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
-      target: { value: 'test@example.com' },
+      target: { value: "test@example.com" },
     });
     fireEvent.click(
-      screen.getByRole('button', { name: /зарегистрироваться/i }),
+      screen.getByRole("button", { name: /зарегистрироваться/i })
     );
-    // Toast появляется с role="alert"
-    expect(await screen.findByRole('alert')).toHaveTextContent(/ошибка сети/i);
+    expect(await screen.findByRole("alert")).toHaveTextContent(/ошибка сети/i);
   });
 });

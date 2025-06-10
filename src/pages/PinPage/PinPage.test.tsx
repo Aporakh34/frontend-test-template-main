@@ -102,7 +102,6 @@ describe('PinPage', () => {
     });
     fireEvent.submit(screen.getByTestId('pin-form'));
 
-    // Toast появляется с role="alert"
     expect(await screen.findByRole('alert')).toHaveTextContent(/ошибка сети/i);
   });
 
